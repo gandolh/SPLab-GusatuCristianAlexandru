@@ -17,7 +17,24 @@ public class SubChapter {
         paragraphs = new ArrayList<>();
         tables = new ArrayList<>();
     }
-    public void print(){}
+    public void print(){
+        System.out.printf("Subchapter: %s%n", name);
+        for (Paragraph paragraph :
+                paragraphs) {
+            paragraph.print();
+        }
+
+        for (Image image :
+                images) {
+            image.print();
+        }
+
+        for (Table table :
+                tables) {
+            table.print();
+        }
+
+    }
 
     public void createNewParagraph(String paragraphName) {
         Paragraph newParagraph = new Paragraph(paragraphName);

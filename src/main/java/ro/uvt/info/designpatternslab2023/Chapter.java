@@ -12,12 +12,18 @@ public class Chapter {
         this.subChapters = new ArrayList<SubChapter>();
     }
 
-    private void print(){}
+    public void print(){
+        for (SubChapter subChapter:
+             subChapters) {
+            subChapter.print();
+        }
+
+    }
 
     public int createSubChapter(String subChapterName) {
         SubChapter newSubChapter = new SubChapter(subChapterName);
         subChapters.add(newSubChapter);
-        return subChapters.size();
+        return subChapters.size() - 1;
     }
 
     public SubChapter GetSubChapter(int index) {

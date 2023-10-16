@@ -1,5 +1,6 @@
 package ro.uvt.info.designpatternslab2023;
 
+
 public class Image {
     private String imageName;
 
@@ -8,5 +9,7 @@ public class Image {
         this.imageName = imageName;
     }
 
-    private void print(){}
+    public void print(){
+        System.out.println("Image with name: " + imageName);
+    }
 }
