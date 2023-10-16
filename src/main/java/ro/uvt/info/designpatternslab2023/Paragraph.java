@@ -1,6 +1,6 @@
 package ro.uvt.info.designpatternslab2023;
 
-public class Paragraph {
+public class Paragraph implements Element {
     private String text;
 
     public void print(){

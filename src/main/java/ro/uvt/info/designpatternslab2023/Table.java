@@ -1,6 +1,6 @@
 package ro.uvt.info.designpatternslab2023;
 
-public class Table {
+public class Table implements Element {
     private String title;
 
     public Table(String title) {
