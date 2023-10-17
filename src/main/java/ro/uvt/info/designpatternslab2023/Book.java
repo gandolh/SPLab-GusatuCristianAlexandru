@@ -1,16 +1,15 @@
 package ro.uvt.info.designpatternslab2023;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Book extends Section {
-    private TableOfContents tableOfContents;
-    private List<Author> authors;
+    private TableOfContents tableOfContentList;
+    private List<Author> authorList;
 
     public Book(String title) {
         super(title);
-        authors = new ArrayList<>();
+        authorList = new ArrayList<>();
     }
 
     @Override
@@ -20,13 +19,13 @@ public class Book extends Section {
 
         System.out.println("Authors: ");
         for (Author author :
-                authors) {
+                authorList) {
             author.print();
         }
         System.out.println();
 
         for (Element element :
-                elements) {
+                elementList) {
             element.print();
         }
 
@@ -34,7 +33,7 @@ public class Book extends Section {
     }
 
     public void addAuthor(Author author) {
-        this.authors.add(author);
+        this.authorList.add(author);
     }
 
 }

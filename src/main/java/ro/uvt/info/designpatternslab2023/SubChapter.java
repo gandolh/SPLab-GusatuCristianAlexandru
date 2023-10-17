@@ -6,33 +6,33 @@ import java.util.List;
 
 public class SubChapter {
     private String name;
-    private List<Element> elements;
+    private List<Element> elementList;
 
     public SubChapter(String name) {
         this.name = name;
-        elements = new ArrayList<>();
+        elementList = new ArrayList<>();
     }
 
     public void print() {
         System.out.printf("Subchapter: %s%n", name);
         for (Element element :
-                elements) {
+                elementList) {
             element.print();
         }
     }
 
     public void createNewParagraph(String paragraphName) {
         Element newParagraph = new Paragraph(paragraphName);
-        elements.add(newParagraph);
+        elementList.add(newParagraph);
     }
 
     public void createNewImage(String imageName) {
         Element newImage = new Image(imageName);
-        elements.add(newImage);
+        elementList.add(newImage);
     }
 
     public void createNewTable(String tableName) {
         Element newTable = new Table(tableName);
-        elements.add(newTable);
+        elementList.add(newTable);
     }
 }

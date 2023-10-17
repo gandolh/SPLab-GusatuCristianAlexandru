@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Chapter {
     private String name;
-    private List<SubChapter> subChapters;
+    private List<SubChapter> subChapterList;
 
     public Chapter(String name) {
         this.name = name;
-        this.subChapters = new ArrayList<SubChapter>();
+        this.subChapterList = new ArrayList<SubChapter>();
     }
 
     public void print(){
         for (SubChapter subChapter:
-             subChapters) {
+                subChapterList) {
             subChapter.print();
         }
 
@@ -22,11 +22,11 @@ public class Chapter {
 
     public int createSubChapter(String subChapterName) {
         SubChapter newSubChapter = new SubChapter(subChapterName);
-        subChapters.add(newSubChapter);
-        return subChapters.size() - 1;
+        subChapterList.add(newSubChapter);
+        return subChapterList.size() - 1;
     }
 
     public SubChapter GetSubChapter(int index) {
-        return subChapters.get(index);
+        return subChapterList.get(index);
     }
 }
