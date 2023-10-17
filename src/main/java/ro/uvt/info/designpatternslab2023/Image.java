@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Image implements Element {
     private String imageName;
-    private List<Element> elementList;
 
     public Image(String imageName) {
         this.imageName = imageName;
@@ -17,16 +16,16 @@ public class Image implements Element {
 
     @Override
     public void add(Element e) {
-        elementList.add(e);
+        throw new IllegalStateException("Cannot add an element");
     }
 
     @Override
     public void remove(Element e) {
-elementList.remove(e);
+        throw new IllegalStateException("Cannot remove an element");
     }
 
     @Override
     public Element get(int index) {
-        return elementList.get(index);
+        throw new IllegalStateException("Cannot get an element");
     }
 }
