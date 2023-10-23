@@ -2,6 +2,7 @@ package ro.uvt.info.designpatternslab2023;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Table implements Element {
@@ -10,6 +11,10 @@ public class Table implements Element {
 
     public Table(String title) {
         this.title = title;
+    }
+    public Table(Table other){
+        this.title = other.title;
+        this.elementList = new ArrayList<>(other.elementList);
     }
 
     public void print(){

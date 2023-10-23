@@ -12,6 +12,11 @@ public class Section implements Element {
         elementList = new ArrayList<>();
     }
 
+    public Section(Section other){
+        this.title = other.title;
+        this.elementList = new ArrayList<>(other.elementList);
+    }
+
     @Override
     public void print() {
         System.out.println(title);

@@ -5,6 +5,11 @@ import java.util.List;
 public class Paragraph implements Element {
     private String text;
     private List<Element> elementList;
+    public Paragraph(String text) {
+        this.text = text;
+    }
+    public Paragraph(Paragraph other){this.text = other.text;}
+
     public void print(){
         System.out.println("Paragraph: " + text);
     }
@@ -24,7 +29,5 @@ public class Paragraph implements Element {
         return elementList.get(index);
     }
 
-    public Paragraph(String text) {
-        this.text = text;
-    }
+
 }
