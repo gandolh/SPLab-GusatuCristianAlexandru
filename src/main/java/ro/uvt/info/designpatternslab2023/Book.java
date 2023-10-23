@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Book extends Section {
     private List<Author> authorList;
-
     public Book(String title) {
         super(title);
         authorList = new ArrayList<>();
@@ -38,7 +37,7 @@ public class Book extends Section {
     }
 
     public void addAuthor(Author author) {
-        this.authorList.add(author);
+        this.authorList.add(new Author(author));
     }
 
 }

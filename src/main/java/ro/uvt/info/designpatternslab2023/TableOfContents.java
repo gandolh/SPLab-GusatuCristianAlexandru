@@ -3,9 +3,7 @@ package ro.uvt.info.designpatternslab2023;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableOfContents implements Element {
-    private List<Element> elementList;
-
+public class TableOfContents extends Element {
     public TableOfContents(){
         elementList = new ArrayList<>();
     }
@@ -14,20 +12,11 @@ public class TableOfContents implements Element {
         elementList = new ArrayList<>(other.elementList);
     }
 
+    @Override
     public void print(){}
 
     @Override
-    public void add(Element e) {
-        elementList.add(e);
-    }
-
-    @Override
-    public void remove(Element e) {
-        elementList.remove(e);
-    }
-
-    @Override
-    public Element get(int index) {
-        return elementList.get(index);
+    public Element clone() {
+        return new TableOfContents(this);
     }
 }

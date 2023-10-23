@@ -3,7 +3,7 @@ package ro.uvt.info.designpatternslab2023;
 
 import java.util.List;
 
-public class Image implements Element {
+public class Image extends Element {
     private String imageName;
 
     public Image(String imageName) {
@@ -30,5 +30,10 @@ public class Image implements Element {
     @Override
     public Element get(int index) {
         throw new IllegalStateException("Cannot get an element");
+    }
+
+    @Override
+    public Element clone() {
+        return new Image(this);
     }
 }
