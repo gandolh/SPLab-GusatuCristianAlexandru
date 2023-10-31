@@ -16,8 +16,8 @@ public class Paragraph extends Element {
     @Override
     public void print(){
         if(alignStrategy != null)
-            alignStrategy.render(this);
-        else new AlignLeft().render(this);
+            alignStrategy.render(text);
+        else new AlignLeft().render(text);
     }
     @Override
     public Element clone() {
