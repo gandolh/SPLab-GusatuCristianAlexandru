@@ -1,4 +1,4 @@
-package ro.uvt.info.designpatternslab2023;
+package ro.uvt.info.models;
 
 
 import java.util.ArrayList;
@@ -12,7 +12,8 @@ public abstract class Element {
     }
 
     public void add(Element e) {
-        elementList.add(e.clone());
+//        el
+        elementList.add(e);
     }
     public void remove(Element e) {
         elementList.remove(e);

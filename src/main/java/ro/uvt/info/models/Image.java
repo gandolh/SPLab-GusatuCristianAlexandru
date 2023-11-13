@@ -1,7 +1,5 @@
-package ro.uvt.info.designpatternslab2023;
+package ro.uvt.info.models;
 
-
-import java.util.List;
 
 public class Image extends Element {
     private String imageName;

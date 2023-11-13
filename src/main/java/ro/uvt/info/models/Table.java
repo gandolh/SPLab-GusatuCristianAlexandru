@@ -1,9 +1,8 @@
-package ro.uvt.info.designpatternslab2023;
+package ro.uvt.info.models;
 
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Table extends Element {
     private String title;

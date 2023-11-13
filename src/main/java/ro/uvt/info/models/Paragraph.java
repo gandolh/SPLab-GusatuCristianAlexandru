@@ -1,6 +1,4 @@
-package ro.uvt.info.designpatternslab2023;
-
-import java.util.List;
+package ro.uvt.info.models;
 
 public class Paragraph extends Element {
     private String text;
