@@ -1,13 +1,7 @@
-package ro.uvt.info.designpatternslab2023;
-
-import lombok.Getter;
-import lombok.Setter;
+package ro.uvt.info.models;
 
 public class Paragraph extends Element {
-    @Getter
-    private final String text;
-    @Setter
-    private AlignStrategy alignStrategy;
+    private String text;
     public Paragraph(String text) {
         this.text = text;
     }
@@ -15,13 +9,12 @@ public class Paragraph extends Element {
 
     @Override
     public void print(){
-        if(alignStrategy != null)
-            alignStrategy.render(text);
-        else new AlignLeft().render(text);
+        System.out.println("Paragraph: " + text);
     }
     @Override
     public Element clone() {
         return new Paragraph(this);
     }
+
 
 }

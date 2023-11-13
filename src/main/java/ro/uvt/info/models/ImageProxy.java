@@ -1,4 +1,4 @@
-package ro.uvt.info.designpatternslab2023;
+package ro.uvt.info.models;
 
 public class ImageProxy extends Element  implements Picture{
     private Image realImage;
