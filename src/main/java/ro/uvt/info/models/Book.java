@@ -1,9 +1,12 @@
 package ro.uvt.info.models;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book extends Section {
+@Getter
+public class Book extends Section implements Visitee {
     private List<Author> authorList;
     public Book(String title) {
         super(title);
@@ -16,28 +19,15 @@ public class Book extends Section {
     }
 
 
-    @Override
-    public void print(){
-        System.out.println("Book: " + title );
-        System.out.println();
 
-        System.out.println("Authors: ");
-        for (Author author :
-                authorList) {
-            author.print();
-        }
-        System.out.println();
-
-        for (Element element :
-                elementList) {
-            element.print();
-        }
-
-
-    }
 
     public void addAuthor(Author author) {
         this.authorList.add(new Author(author));
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitBook(this);
     }
 
 }

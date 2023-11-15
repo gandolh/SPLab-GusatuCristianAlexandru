@@ -1,7 +1,10 @@
 package ro.uvt.info.models;
 
-public class Author {
+import lombok.Getter;
 
+public class Author implements Visitee {
+
+    @Getter
     private String name;
     private String surname;
 
@@ -19,9 +22,8 @@ public class Author {
         this.surname = author.surname;
     }
 
-
-
-   public void print(){
-       System.out.println("Author: " + name);
-   }
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitAuthor(this);
+    }
 }

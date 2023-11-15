@@ -1,7 +1,10 @@
 package ro.uvt.info.models;
 
 
-public class Image extends Element {
+import lombok.Getter;
+
+public class Image extends Element implements Visitee {
+    @Getter
     private String imageName;
 
     public Image(String imageName) {
@@ -11,9 +14,7 @@ public class Image extends Element {
         imageName = other.imageName;
     }
 
-    public void print(){
-        System.out.println("Image with name: " + imageName);
-    }
+
 
     @Override
     public void add(Element e) {
@@ -33,5 +34,10 @@ public class Image extends Element {
     @Override
     public Element clone() {
         return new Image(this);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitImage(this);
     }
 }

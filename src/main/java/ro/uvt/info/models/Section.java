@@ -1,8 +1,13 @@
 package ro.uvt.info.models;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 
-public class Section extends Element {
+public class Section extends Element implements Visitee {
+
+
+    @Getter
     protected String title;
 
     public Section(String title) {
@@ -15,19 +20,17 @@ public class Section extends Element {
         this.elementList = new ArrayList<>(other.elementList);
     }
 
-    @Override
-    public void print() {
-        System.out.println(title);
-        for (Element element :
-                elementList) {
-            element.print();
-        }
-    }
+
 
 
 
     @Override
     public Element clone() {
         return new Section(this);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitSection(this);
     }
 }
