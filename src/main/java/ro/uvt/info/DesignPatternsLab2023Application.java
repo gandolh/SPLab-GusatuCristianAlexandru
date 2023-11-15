@@ -2,6 +2,7 @@ package ro.uvt.info;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ro.uvt.info.models.*;
+import ro.uvt.info.services.BookStatistics;
 import ro.uvt.info.services.RenderContentVisitor;
 
 @SpringBootApplication
@@ -22,10 +23,10 @@ public class DesignPatternsLab2023Application {
         cap1.add(new Image("ImageTwo"));
         cap1.add(new Paragraph("Some text"));
         cap1.add(new Table("Table 1"));
-        cap1.accept(new RenderContentVisitor());
-//        BookStatistics stats = new BookStatistics();
-//        cap1.accept(stats);
-//        stats.printStatistics();
+//        cap1.accept(new RenderContentVisitor());
+        BookStatistics stats = new BookStatistics();
+        cap1.accept(stats);
+        stats.printStatistics();
 
     }
 
