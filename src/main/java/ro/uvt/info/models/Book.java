@@ -18,9 +18,6 @@ public class Book extends Section implements Visitee {
         this.authorList = new ArrayList<>(other.authorList);
     }
 
-
-
-
     public void addAuthor(Author author) {
         this.authorList.add(new Author(author));
     }
