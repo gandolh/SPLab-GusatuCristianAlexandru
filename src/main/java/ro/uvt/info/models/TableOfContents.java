@@ -1,21 +1,36 @@
 package ro.uvt.info.models;
 
-import java.util.ArrayList;
+import lombok.Getter;
 
-public class TableOfContents extends Element {
+import javax.swing.plaf.PanelUI;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+public class TableOfContents extends Element implements Visitee {
+    private final List<String> entries;
+
     public TableOfContents(){
-        elementList = new ArrayList<>();
+        entries = new ArrayList<>();
     }
 
     public TableOfContents(TableOfContents other){
-        elementList = new ArrayList<>(other.elementList);
+        entries = new ArrayList<>(other.entries);
     }
-
-    @Override
-    public void print(){}
 
     @Override
     public Element clone() {
         return new TableOfContents(this);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitTableOfContents(this);
+    }
+
+
+    // add name if chapter/subchapter, adds null if paragraph, image, table
+    public void addEntry(String entry){
+        entries.add(entry);
     }
 }

@@ -2,36 +2,44 @@ package ro.uvt.info;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ro.uvt.info.models.*;
+import ro.uvt.info.services.BookStatistics;
+import ro.uvt.info.services.RenderContentVisitor;
+import ro.uvt.info.services.TableOfContentUpdate;
 
 @SpringBootApplication
 public class DesignPatternsLab2023Application {
 
     public static void main(String[] args) {
 //		SpringApplication.run(DesignPatternsLab2023Application.class, args);
-		Book noapteBuna = lab3();
-        noapteBuna.print();
+        createTableOfContent();
+
     }
 
+    public static void createTableOfContent() {
+        Book b = new Book("The book");
+        Section cap1 = new Section("Chapter 1");
+        Section cap11 = new Section("Subchapter 1.1");
+        Section cap2 = new Section("Chapter 2");
+        cap1.add(new Paragraph("Paragraph 1"));
+        cap1.add(new Paragraph("Paragraph 2"));
+        cap1.add(new Paragraph("Paragraph 3"));
 
-    private static Book lab3() {
-        Book noapteBuna = new Book("Noapte buna, copii!");
-        Author rpGheo = new Author("Radu Pavel Gheo");
-        noapteBuna.addAuthor(rpGheo);
-        Section cap1 = new Section("Capitolul 1");
-        Section cap11 = new Section("Capitolul 1.1");
-        Section cap111 = new Section("Capitolul 1.1.1");
-        Section cap1111 = new Section("Subchapter 1.1.1.1");
-        noapteBuna.add(new Paragraph("Multumesc celor care ..."));
-        noapteBuna.add(cap1);
-        cap1.add(new Paragraph("Moto capitol"));
+        cap11.add(new ImageProxy("ImageOne"));
+        cap11.add(new Image("ImageTwo"));
+
+        cap2.add(new Paragraph("Paragraph 4"));
+//        cap2.add(p4);
         cap1.add(cap11);
-        cap11.add(new Paragraph("Text from subchapter 1.1"));
-
-        cap11.add(cap111);
-        cap111.add(new Paragraph("Text from subchapter 1.1.1"));
-        cap111.add(cap1111);
-        cap1111.add(new Image("Image subchapter 1.1.1.1"));
-        return noapteBuna;
+        cap1.add(new Paragraph("Some text"));
+        cap1.add(new Table("Table 1"));
+        b.add(cap1);
+        b.add(cap2);
+        TableOfContentUpdate tocUpdate = new TableOfContentUpdate();
+        b.accept(tocUpdate);
+        tocUpdate.getToC().accept(new RenderContentVisitor());
     }
+
+
+
 
 }
