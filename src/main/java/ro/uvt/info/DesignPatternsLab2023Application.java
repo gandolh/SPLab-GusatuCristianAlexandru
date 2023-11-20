@@ -2,6 +2,7 @@ package ro.uvt.info;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ro.uvt.info.models.*;
+import ro.uvt.info.services.BookSaveVisitor;
 import ro.uvt.info.services.BookStatistics;
 import ro.uvt.info.services.RenderContentVisitor;
 import ro.uvt.info.services.TableOfContentUpdate;
@@ -16,6 +17,7 @@ public class DesignPatternsLab2023Application {
     }
 
     public static void createTableOfContent() {
+
         Book b = new Book("The book");
         Section cap1 = new Section("Chapter 1");
         Section cap11 = new Section("Subchapter 1.1");
@@ -34,9 +36,12 @@ public class DesignPatternsLab2023Application {
         cap1.add(new Table("Table 1"));
         b.add(cap1);
         b.add(cap2);
-        TableOfContentUpdate tocUpdate = new TableOfContentUpdate();
-        b.accept(tocUpdate);
-        tocUpdate.getToC().accept(new RenderContentVisitor());
+//        TableOfContentUpdate tocUpdate = new TableOfContentUpdate();
+//        b.accept(tocUpdate);
+//        tocUpdate.getToC().accept(new RenderContentVisitor());
+        BookSaveVisitor saveVisitor = new BookSaveVisitor();
+        b.accept(saveVisitor);
+
     }
 
 
