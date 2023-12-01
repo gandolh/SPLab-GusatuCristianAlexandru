@@ -3,9 +3,6 @@ package ro.uvt.info;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ro.uvt.info.models.*;
 import ro.uvt.info.services.BookSaveVisitor;
-import ro.uvt.info.services.BookStatistics;
-import ro.uvt.info.services.RenderContentVisitor;
-import ro.uvt.info.services.TableOfContentUpdate;
 
 @SpringBootApplication
 public class DesignPatternsLab2023Application {
@@ -41,7 +38,7 @@ public class DesignPatternsLab2023Application {
 //        tocUpdate.getToC().accept(new RenderContentVisitor());
         BookSaveVisitor saveVisitor = new BookSaveVisitor();
         b.accept(saveVisitor);
-        System.out.println(saveVisitor.GetJson());
+        System.out.println(saveVisitor.getJson());
 
     }
 

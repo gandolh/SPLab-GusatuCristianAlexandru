@@ -126,7 +126,7 @@ public class BookSaveVisitor implements Visitor<Void> {
         return null;
     }
 
-    public String GetJson(){
+    public String getJson(){
         return buildingJson.toString();
     }
 }
