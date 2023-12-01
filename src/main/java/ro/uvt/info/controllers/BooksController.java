@@ -29,7 +29,8 @@ public class BooksController {
 //        cap1.accept(new RenderContentVisitor());
         BookStatistics stats = new BookStatistics();
         cap1.accept(stats);
-        stats.printStatistics();
-        return new ResponseEntity<>("", HttpStatus.OK);
+        return new ResponseEntity<>(stats.getStatistics(), HttpStatus.OK);
     }
+
+
 }

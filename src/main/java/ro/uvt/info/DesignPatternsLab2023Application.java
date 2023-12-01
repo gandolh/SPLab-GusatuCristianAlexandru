@@ -41,6 +41,7 @@ public class DesignPatternsLab2023Application {
 //        tocUpdate.getToC().accept(new RenderContentVisitor());
         BookSaveVisitor saveVisitor = new BookSaveVisitor();
         b.accept(saveVisitor);
+        System.out.println(saveVisitor.GetJson());
 
     }
 

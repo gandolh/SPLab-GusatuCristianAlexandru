@@ -8,7 +8,7 @@ public class BookStatistics implements Visitor<Void> {
     private int NoImages;
     private int NoTables;
     private int NoParagraphs;
-
+    
     @Override
     public Void visitBook(Book book) {
         for (Visitee element :
@@ -61,11 +61,14 @@ public class BookStatistics implements Visitor<Void> {
         return null;
     }
 
-    public void printStatistics() {
-        System.out.println("Book Statistics:");
-        System.out.println("*** Number of images: "+ NoImages);
-        System.out.println("*** Number of tables: "+ NoTables);
-        System.out.println("*** Number of paragraphs: "+ NoParagraphs);
+    public String getStatistics() {
+        String statisticsTemplate = """
+                Book Statistics:
+                *** Number of images: %d
+                *** Number of tables: %d
+                *** Number of paragraphs: %d
+                """;
+        return String.format(statisticsTemplate,NoImages ,NoTables ,NoParagraphs);
 
     }
 }
