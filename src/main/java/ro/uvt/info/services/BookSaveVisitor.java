@@ -7,17 +7,11 @@ import java.util.List;
 
 public class BookSaveVisitor implements Visitor<Void> {
     private final StringBuilder buildingJson = new StringBuilder();
-    private int paragraphLastIndex = 0;
-    private int sectionLastIndex = 0;
-    private int imageLastIndex = 0;
-    private int tableLastIndex = 0;
-    private int authorLastIndex = 0;
 
     @Override
     public Void visitBook(Book book) {
         String BookPropertiesTemplateJson = """
                 {
-                    "Book": {
                     "title": "%s",
                     "Authors": [
                 """;
@@ -27,10 +21,11 @@ public class BookSaveVisitor implements Visitor<Void> {
             author.accept(this);
         }
         buildingJson.append("]");
-        buildingJson.append(!book.getElementList().isEmpty() ? "," : "");
+        buildingJson.append(!book.getElementList().isEmpty() ? ",\n \"elementList\": [" : "");
         List<Element> books = book.getElementList();
         printChilds(books);
-        buildingJson.append("}\n}");
+        buildingJson.append(!book.getElementList().isEmpty() ? "]" : "");
+        buildingJson.append("}");
         return null;
     }
 
@@ -44,12 +39,11 @@ public class BookSaveVisitor implements Visitor<Void> {
     @Override
     public Void visitSection(Section section) {
         String sectionJsonTemplate = """
-                "Section %d": {
+                {
                     "title": "%s"%s
                 """;
-        sectionLastIndex++;
-        String json = String.format(sectionJsonTemplate, sectionLastIndex,
-                section.getTitle(), !section.getElementList().isEmpty() ? ",": "");
+        String json = String.format(sectionJsonTemplate,
+                section.getTitle(), !section.getElementList().isEmpty() ? ", \"elementList\" : [ " : "");
         buildingJson.append(json);
         var sections = section.getElementList();
         printChilds(sections);
@@ -61,7 +55,7 @@ public class BookSaveVisitor implements Visitor<Void> {
     public Void visitTableOfContents(TableOfContents toc) {
         int pageCount = 1;
         String entryTemplate = "\"%s\":\"%s\"";
-        buildingJson.append("\"TableOfContent\" : {");
+        buildingJson.append("{");
         for (String entry :
                 toc.getEntries()) {
             if (entry != null)
@@ -75,12 +69,11 @@ public class BookSaveVisitor implements Visitor<Void> {
     @Override
     public Void visitParagraph(Paragraph paragraph) {
         String paragraphJsonTemplate = """
-                "Paragraph %d": {
+                {
                     "text": "%s"
                 }
                 """;
-        paragraphLastIndex++;
-        buildingJson.append(String.format(paragraphJsonTemplate, paragraphLastIndex, paragraph.getText()));
+        buildingJson.append(String.format(paragraphJsonTemplate, paragraph.getText()));
         return null;
     }
 
@@ -93,35 +86,32 @@ public class BookSaveVisitor implements Visitor<Void> {
     @Override
     public Void visitImage(Image image) {
         String imageJsonTemplate = """
-                "Image %d": {
+                {
                     "name": "%s"
                 }
                 """;
-        imageLastIndex++;
-        buildingJson.append(String.format(imageJsonTemplate, imageLastIndex, image.getImageName()));
+        buildingJson.append(String.format(imageJsonTemplate, image.getImageName()));
         return null;
     }
 
     @Override
     public Void visitTable(Table table) {
         String tableJsonTemplate = """
-                "Table %d": {
+                {
                     "title": "%s"
                 }
                 """;
-        tableLastIndex++;
-        buildingJson.append(String.format(tableJsonTemplate, tableLastIndex, table.getTitle()));
+        buildingJson.append(String.format(tableJsonTemplate, table.getTitle()));
         return null;
     }
 
     public Void visitAuthor(Author author) {
         String authorJsonTemplate = """
-                "Author %d": {
+                {
                     "Author": "%s"
                 }
                 """;
-        authorLastIndex++;
-        String json = String.format(authorJsonTemplate, authorLastIndex, author.getName());
+        String json = String.format(authorJsonTemplate, author.getName());
         buildingJson.append(json);
         return null;
     }
