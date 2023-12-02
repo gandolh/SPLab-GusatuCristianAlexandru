@@ -5,6 +5,8 @@ import lombok.Getter;
 public class Paragraph extends Element implements Visitee {
     @Getter
     private String text;
+
+    public Paragraph() { text = "";}
     public Paragraph(String text) {
         this.text = text;
     }

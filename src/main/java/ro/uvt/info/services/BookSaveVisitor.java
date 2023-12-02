@@ -2,20 +2,26 @@ package ro.uvt.info.services;
 
 import ro.uvt.info.models.*;
 
+import javax.swing.plaf.PanelUI;
 import java.util.List;
 
 
 public class BookSaveVisitor implements Visitor<Void> {
-    private final StringBuilder buildingJson = new StringBuilder();
+    private StringBuilder buildingJson = new StringBuilder();
+
+    public void clearBuffer(){
+        buildingJson = new StringBuilder();
+    }
 
     @Override
     public Void visitBook(Book book) {
         String BookPropertiesTemplateJson = """
                 {
                     "title": "%s",
-                    "Authors": [
+                    "class": "%s",
+                    "authorList": [
                 """;
-        buildingJson.append(String.format(BookPropertiesTemplateJson,book.getTitle()));
+        buildingJson.append(String.format(BookPropertiesTemplateJson,book.getTitle(), Book.class));
         for (Author author :
                 book.getAuthorList()) {
             author.accept(this);
@@ -40,13 +46,17 @@ public class BookSaveVisitor implements Visitor<Void> {
     public Void visitSection(Section section) {
         String sectionJsonTemplate = """
                 {
-                    "title": "%s"%s
+                    "title": "%s",
+                    "class": "%s"%s
                 """;
         String json = String.format(sectionJsonTemplate,
-                section.getTitle(), !section.getElementList().isEmpty() ? ", \"elementList\" : [ " : "");
+                section.getTitle(), Section.class,
+                !section.getElementList().isEmpty() ? ", \"elementList\" : [ " : "");
         buildingJson.append(json);
         var sections = section.getElementList();
         printChilds(sections);
+        if(!section.getElementList().isEmpty())
+            buildingJson.append("]");
         buildingJson.append("}");
         return null;
     }
@@ -70,10 +80,11 @@ public class BookSaveVisitor implements Visitor<Void> {
     public Void visitParagraph(Paragraph paragraph) {
         String paragraphJsonTemplate = """
                 {
-                    "text": "%s"
+                    "text": "%s",
+                    "class": "%s"
                 }
                 """;
-        buildingJson.append(String.format(paragraphJsonTemplate, paragraph.getText()));
+        buildingJson.append(String.format(paragraphJsonTemplate, paragraph.getText(), Paragraph.class));
         return null;
     }
 
@@ -87,10 +98,11 @@ public class BookSaveVisitor implements Visitor<Void> {
     public Void visitImage(Image image) {
         String imageJsonTemplate = """
                 {
-                    "name": "%s"
+                    "imageName": "%s",
+                    "class": "%s"
                 }
                 """;
-        buildingJson.append(String.format(imageJsonTemplate, image.getImageName()));
+        buildingJson.append(String.format(imageJsonTemplate, image.getImageName(), Image.class));
         return null;
     }
 
@@ -98,20 +110,22 @@ public class BookSaveVisitor implements Visitor<Void> {
     public Void visitTable(Table table) {
         String tableJsonTemplate = """
                 {
-                    "title": "%s"
+                    "title": "%s",
+                    "class": "%s"
                 }
                 """;
-        buildingJson.append(String.format(tableJsonTemplate, table.getTitle()));
+        buildingJson.append(String.format(tableJsonTemplate, table.getTitle(), Table.class));
         return null;
     }
 
     public Void visitAuthor(Author author) {
         String authorJsonTemplate = """
                 {
-                    "Author": "%s"
+                    "authorList": "%s",
+                    "class": "%s"
                 }
                 """;
-        String json = String.format(authorJsonTemplate, author.getName());
+        String json = String.format(authorJsonTemplate, author.getName(), Author.class);
         buildingJson.append(json);
         return null;
     }

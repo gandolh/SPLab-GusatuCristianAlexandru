@@ -7,6 +7,7 @@ public class Image extends Element implements Visitee {
     @Getter
     private String imageName;
 
+    public Image() { imageName = ""; }
     public Image(String imageName) {
         this.imageName = imageName;
     }

@@ -8,6 +8,7 @@ import ro.uvt.info.models.Book;
 import ro.uvt.info.services.BookRepository;
 import ro.uvt.info.services.BookSaveVisitor;
 import ro.uvt.info.services.BookStatistics;
+import ro.uvt.info.services.JsonSerializer;
 
 import java.util.List;
 
@@ -19,11 +20,8 @@ public class BooksController {
     private final Command<Void, Book> AddOne;
     private final Command<String, Object> saveToJson;
 
-    public BooksController(){
-
-        BookSaveVisitor saveVisitor =  new BookSaveVisitor();
-        BookRepository bookRepository =  new BookRepository();
-        saveToJson = new SaveToJsonCommand(saveVisitor);
+    public BooksController(SaveToJsonCommand saveToJsonCmd, BookRepository bookRepository){
+        saveToJson = saveToJsonCmd;
         getAll = new GetAllCommand<Book>(bookRepository);
         getOne = new FindOneCommand<Book>(bookRepository);
         AddOne = new AddOneCommand<Book>(bookRepository);
@@ -56,8 +54,8 @@ public class BooksController {
 
     @PostMapping("")
     public ResponseEntity<?> addBook(@RequestBody Book book) {
-        AddOne.setCommandContext(book);
-        AddOne.execute();
+//        AddOne.setCommandContext(book);
+//        AddOne.execute();
         return new ResponseEntity<>("Done!", HttpStatus.OK);
     }
 

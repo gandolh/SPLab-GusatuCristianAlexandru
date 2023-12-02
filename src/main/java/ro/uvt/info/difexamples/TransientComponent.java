@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class TransientComponent {
     public TransientComponent() {
         System.out.println("TransientComponent::TransientComponent = "
-
                 + this);
     }
     public void operation() {

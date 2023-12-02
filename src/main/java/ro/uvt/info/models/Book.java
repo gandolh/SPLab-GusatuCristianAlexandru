@@ -1,13 +1,23 @@
 package ro.uvt.info.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.Setter;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class Book extends Section implements Visitee {
+
     private List<Author> authorList;
+
+    public Book(){
+        super("");
+    }
+
     public Book(String title) {
         super(title);
         authorList = new ArrayList<>();

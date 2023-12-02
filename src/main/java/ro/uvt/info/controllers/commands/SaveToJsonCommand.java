@@ -1,8 +1,13 @@
 package ro.uvt.info.controllers.commands;
 
 import lombok.Setter;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import ro.uvt.info.models.Book;
+import ro.uvt.info.models.Visitee;
 import ro.uvt.info.services.BookSaveVisitor;
+import ro.uvt.info.services.JsonSerializer;
 
 import java.util.List;
 
@@ -11,25 +16,21 @@ import java.util.List;
  * TODO: use T as SaveVisitor type.
  * TODO: Make this command generic for any serializable type.
  */
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SaveToJsonCommand implements Command<String, Object> {
-    private final BookSaveVisitor saveVisitor;
+    private final JsonSerializer serializer;
     @Setter
     private Object commandContext;
 
-    public SaveToJsonCommand(BookSaveVisitor saveVisitor) {
-        this.saveVisitor = saveVisitor;
+    public SaveToJsonCommand(JsonSerializer serializer) {
+        this.serializer = serializer;
     }
 
     @Override
     public String execute() {
-        if (commandContext instanceof List) {
-            List<Book> books = (List<Book>)commandContext;
-            for (Book book : books)
-                saveVisitor.visitBook(book);
-        }else {
-            saveVisitor.visitBook((Book)commandContext);
-        }
-
-        return saveVisitor.getJson();
+        if (commandContext instanceof List)
+            return serializer.serialize((List<Visitee>) commandContext);
+        return serializer.serialize((Book) commandContext);
     }
 }

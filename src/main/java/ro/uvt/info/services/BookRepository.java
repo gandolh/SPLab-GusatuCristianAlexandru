@@ -1,11 +1,17 @@
 package ro.uvt.info.services;
 
 import com.sun.source.tree.ReturnTree;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import ro.uvt.info.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class BookRepository implements Repository<Book> {
     private final List<Book> books;
 

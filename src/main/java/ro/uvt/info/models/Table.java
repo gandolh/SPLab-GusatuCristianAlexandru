@@ -9,6 +9,11 @@ import java.util.ArrayList;
 public class Table extends Element implements Visitee {
     @Getter
     private String title;
+
+    public Table() {
+        title = "";
+    }
+
     public Table(String title) {
         this.title = title;
     }
