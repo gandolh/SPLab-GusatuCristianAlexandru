@@ -1,15 +1,16 @@
 package ro.uvt.info.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.PushBuilder;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ro.uvt.info.models.*;
 
-import javax.swing.plaf.PanelUI;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -42,23 +43,28 @@ public class JsonSerializer {
     }
 
 
-    public void addElementListRecursive(JsonNode node, Section section)
+    public Element DeserializeBookRecursive(JsonNode node)
     {
+        return internDeserializeBook(node, new Book());
+    }
+
+    private Element internDeserializeBook(JsonNode node, Section section){
         JsonNode elementListNode = node.get("elementList");
-
-        if(elementListNode !=null) {
-            Iterator<JsonNode> elementList = elementListNode.elements();
-
-            while (elementList.hasNext()){
-                String title = node.get("title").asText();
-                Section tmpSection = new Section(title);
-                addElementListRecursive(elementList.next(), tmpSection);
-                section.add(tmpSection);
-            }
-
-        }else{
-            section.getElementList().add(deserializeBaseType(node));
+        if(elementListNode == null){
+            return  deserializeBaseType(node);
         }
+
+        Iterator<JsonNode> elementList = elementListNode.elements();
+        String title = node.get("title").asText();
+        List<Element> tmpElementList = new ArrayList<>();
+
+        while (elementList.hasNext()){
+            Element elt = internDeserializeBook(elementList.next(), new Section());
+            tmpElementList.add(elt);
+        }
+        section.setTitle(title);
+        section.setElementList(tmpElementList);
+        return section;
     }
 
     private Element deserializeBaseType(JsonNode node){

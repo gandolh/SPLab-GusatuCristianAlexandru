@@ -54,8 +54,8 @@ public class BooksController {
 
     @PostMapping("")
     public ResponseEntity<?> addBook(@RequestBody Book book) {
-//        AddOne.setCommandContext(book);
-//        AddOne.execute();
+        AddOne.setCommandContext(book);
+        AddOne.execute();
         return new ResponseEntity<>("Done!", HttpStatus.OK);
     }
 

@@ -16,6 +16,7 @@ public class Book extends Section implements Visitee {
 
     public Book(){
         super("");
+        authorList = new ArrayList<>();
     }
 
     public Book(String title) {

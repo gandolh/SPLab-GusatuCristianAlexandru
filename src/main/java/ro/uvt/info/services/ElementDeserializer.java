@@ -7,11 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import ro.uvt.info.models.*;
 
-import javax.swing.text.StyledEditorKit;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class ElementDeserializer extends StdDeserializer<Element> {
     public ElementDeserializer() {
@@ -29,9 +25,7 @@ public class ElementDeserializer extends StdDeserializer<Element> {
         String className = node.get("class").asText();
 
         if(className.equals(Book.class.toString())){
-            String title = node.get("title").asText();
-            var book = new Book(title);
-            serializer.addElementListRecursive(node, book);
+            var book = serializer.DeserializeBookRecursive(node);
             return book;
         }
 
