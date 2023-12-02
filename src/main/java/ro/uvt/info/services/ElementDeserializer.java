@@ -25,8 +25,7 @@ public class ElementDeserializer extends StdDeserializer<Element> {
         String className = node.get("class").asText();
 
         if(className.equals(Book.class.toString())){
-            var book = serializer.DeserializeBookRecursive(node);
-            return book;
+            return serializer.DeserializeBookRecursive(node);
         }
 
 

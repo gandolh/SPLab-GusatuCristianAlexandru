@@ -1,6 +1,5 @@
 package ro.uvt.info.services;
 
-import com.sun.source.tree.ReturnTree;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,8 @@ public class BookRepository implements Repository<Book> {
 
     public BookRepository() {
         books = new ArrayList<>();
-        Book book1 = BuildBook1();
-        Book book2 = BuildBook2();
+        Book book1 = buildBook1();
+        Book book2 = buildBook2();
         books.add(book1);
         books.add(book2);
     }
@@ -28,10 +27,8 @@ public class BookRepository implements Repository<Book> {
     }
 
     public Book find(String title){
-        return books.stream()
-                .filter(b -> b.getTitle().equals(title))
-                .findFirst()
-                .orElse(null);
+        int index = findIndex(title);
+        return books.get(index);
     }
 
     @Override
@@ -39,7 +36,32 @@ public class BookRepository implements Repository<Book> {
         books.add(book);
     }
 
-    private Book BuildBook1(){
+    @Override
+    public void update(String id, Book book) {
+        int index = findIndex(id);
+        books.set(index, book);
+    }
+
+    @Override
+    public void delete(String id) {
+        int index = findIndex(id);
+        books.remove(index);
+
+    }
+
+    public int findIndex(String id){
+        int index = -1;
+
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getTitle().equals(id)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    private Book buildBook1(){
         Book book = new Book("Book 1");
         Section cap1 = new Section("Capitolul 1");
         Paragraph p1 = new Paragraph("Paragraph 1");
@@ -57,7 +79,7 @@ public class BookRepository implements Repository<Book> {
         book.add(cap1);
         return book;
     }
-    private Book BuildBook2(){
+    private Book buildBook2(){
         Book book =new Book("Book 2");
         Section cap2 = new Section("Chapter One");
         Paragraph p5 = new Paragraph("Introduction");
