@@ -1,6 +1,5 @@
 package ro.uvt.info.controllers;
 
-import ch.qos.logback.core.joran.sanity.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +8,7 @@ import ro.uvt.info.models.Book;
 import ro.uvt.info.models.MyPair;
 import ro.uvt.info.services.BookRepository;
 import ro.uvt.info.services.BookStatistics;
+import ro.uvt.info.services.CommandExecutor;
 
 import java.util.List;
 
@@ -32,8 +32,6 @@ public class BooksController {
         updateOne = new UpdateOneCommand<Book>(bookRepository);
         deleteOne = new DeleteOneCommand<Book>(bookRepository);
         this.commandExecutor = commandExecutor;
-
-
     }
 
     @GetMapping("/statistics")
@@ -47,39 +45,56 @@ public class BooksController {
 
     @GetMapping("")
     public ResponseEntity<?> getBooks() {
-        List<Book> books = commandExecutor.execute(getAll);
-        saveToJson.setCommandContext(books);
-        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
+//        List<Book> books = commandExecutor.execute(getAll);
+//        saveToJson.setCommandContext(books);
+//        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.executeAsync(getAll), HttpStatus.ACCEPTED);
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBook(@PathVariable String id) {
+//        getOne.setCommandContext(id);
+//        Book book = commandExecutor.execute(getOne);
+//        saveToJson.setCommandContext(book);
+//        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
         getOne.setCommandContext(id);
-        Book book = commandExecutor.execute(getOne);
-        saveToJson.setCommandContext(book);
-        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.executeAsync(getOne), HttpStatus.ACCEPTED);
     }
 
     @PostMapping("")
     public ResponseEntity<?> addBook(@RequestBody Book book) {
+//        addOne.setCommandContext(book);
+//        commandExecutor.execute(addOne);
+//        return new ResponseEntity<>("Added!", HttpStatus.OK);
         addOne.setCommandContext(book);
-        commandExecutor.execute(addOne);
-        return new ResponseEntity<>("Added!", HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.executeAsync(addOne), HttpStatus.ACCEPTED);
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> putBook(@PathVariable String id, @RequestBody Book book) {
-        MyPair<String,Book> pair = new MyPair<String, Book>(id, book);
+//        MyPair<String,Book> pair = new MyPair<String, Book>(id, book);
+//        updateOne.setCommandContext(pair);
+//        commandExecutor.execute(updateOne);
+//        return new ResponseEntity<>("Updated!", HttpStatus.OK);
+        MyPair<String,Book> pair = new MyPair<>(id, book);
         updateOne.setCommandContext(pair);
-        commandExecutor.execute(updateOne);
-        return new ResponseEntity<>("Updated!", HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.executeAsync(updateOne), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable String id) {
+//        deleteOne.setCommandContext(id);
+//        commandExecutor.execute(deleteOne);
+//        return new ResponseEntity<>("Removed!", HttpStatus.OK);
         deleteOne.setCommandContext(id);
-        commandExecutor.execute(deleteOne);
-        return new ResponseEntity<>("Removed!", HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.executeAsync(deleteOne), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/async/{opId}")
+    public ResponseEntity<?> getAsyncResult(@PathVariable String opId){
+        return new ResponseEntity<>( commandExecutor.getAsyncResult(opId), HttpStatus.OK);
     }
 
 

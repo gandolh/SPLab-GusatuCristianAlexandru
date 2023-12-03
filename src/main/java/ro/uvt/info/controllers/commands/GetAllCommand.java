@@ -9,9 +9,17 @@ public class GetAllCommand<T> implements Command<List<T>, Void> {
     public GetAllCommand(Repository<T> repository) {
         this.repository = repository;
     }
+    private GetAllCommand(GetAllCommand<T> gac) {
+        this.repository = gac.repository;
+    }
 
     @Override
     public List<T> execute() {
         return repository.getAll();
+    }
+
+    @Override
+    public Command<List<T>, Void> getClone() {
+        return new GetAllCommand<>(this);
     }
 }

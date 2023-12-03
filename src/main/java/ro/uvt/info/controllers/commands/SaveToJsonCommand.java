@@ -1,6 +1,7 @@
 package ro.uvt.info.controllers.commands;
 
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,8 +24,13 @@ public class SaveToJsonCommand implements Command<String, Object> {
     @Setter
     private Object commandContext;
 
+    @Autowired
     public SaveToJsonCommand(JsonSerializer serializer) {
         this.serializer = serializer;
+    }
+    private SaveToJsonCommand(SaveToJsonCommand stjc) {
+        this.serializer = stjc.serializer;
+        this.commandContext = stjc.commandContext;
     }
 
     @Override
@@ -32,5 +38,10 @@ public class SaveToJsonCommand implements Command<String, Object> {
         if (commandContext instanceof List)
             return serializer.serialize((List<Visitee>) commandContext);
         return serializer.serialize((Book) commandContext);
+    }
+
+    @Override
+    public Command<String, Object> getClone() {
+        return new SaveToJsonCommand(this);
     }
 }
