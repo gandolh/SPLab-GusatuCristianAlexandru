@@ -21,14 +21,18 @@ public class BooksController {
     private final Command<Void, MyPair<String,Book>> updateOne;
     private final Command<Void, String> deleteOne;
     private final Command<String, Object> saveToJson;
+    private final CommandExecutor commandExecutor;
 
-    public BooksController(SaveToJsonCommand saveToJsonCmd, BookRepository bookRepository){
+    public BooksController(SaveToJsonCommand saveToJsonCmd, BookRepository bookRepository,
+                           CommandExecutor commandExecutor){
         saveToJson = saveToJsonCmd;
         getAll = new GetAllCommand<Book>(bookRepository);
         getOne = new FindOneCommand<Book>(bookRepository);
         addOne = new AddOneCommand<Book>(bookRepository);
         updateOne = new UpdateOneCommand<Book>(bookRepository);
         deleteOne = new DeleteOneCommand<Book>(bookRepository);
+        this.commandExecutor = commandExecutor;
+
 
     }
 
@@ -43,23 +47,23 @@ public class BooksController {
 
     @GetMapping("")
     public ResponseEntity<?> getBooks() {
-        List<Book> books = getAll.execute();
+        List<Book> books = commandExecutor.execute(getAll);
         saveToJson.setCommandContext(books);
-        return new ResponseEntity<>(saveToJson.execute(), HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBook(@PathVariable String id) {
         getOne.setCommandContext(id);
-        Book book = getOne.execute();
+        Book book = commandExecutor.execute(getOne);
         saveToJson.setCommandContext(book);
-        return new ResponseEntity<>(saveToJson.execute(), HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity<?> addBook(@RequestBody Book book) {
         addOne.setCommandContext(book);
-        addOne.execute();
+        commandExecutor.execute(addOne);
         return new ResponseEntity<>("Added!", HttpStatus.OK);
     }
 
@@ -67,14 +71,14 @@ public class BooksController {
     public ResponseEntity<?> putBook(@PathVariable String id, @RequestBody Book book) {
         MyPair<String,Book> pair = new MyPair<String, Book>(id, book);
         updateOne.setCommandContext(pair);
-        updateOne.execute();
+        commandExecutor.execute(updateOne);
         return new ResponseEntity<>("Updated!", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable String id) {
         deleteOne.setCommandContext(id);
-        deleteOne.execute();
+        commandExecutor.execute(deleteOne);
         return new ResponseEntity<>("Removed!", HttpStatus.OK);
     }
 
