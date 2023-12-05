@@ -8,6 +8,11 @@ public class Author implements Visitee {
     private String name;
     private String surname;
 
+    public Author() {
+        name = "";
+        surname = "";
+    }
+
     public Author(String name) {
         this.name = name;
     }
