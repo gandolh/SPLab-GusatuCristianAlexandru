@@ -18,8 +18,8 @@ import java.util.NoSuchElementException;
 public class BooksController {
     private final Command<List<Book>, Void> getAll;
     private final Command<Book, String> getOne;
-    private final Command<Void, Book> addOne;
-    private final Command<Void, MyPair<String,Book>> updateOne;
+    private final Command<Book, Book> addOne;
+    private final Command<Book, MyPair<String,Book>> updateOne;
     private final Command<Void, String> deleteOne;
     private final CommandExecutor commandExecutor;
 
@@ -68,8 +68,8 @@ public class BooksController {
     @PostMapping("")
     public ResponseEntity<?> addBook(@RequestBody Book book) {
         addOne.setCommandContext(book);
-        commandExecutor.execute(addOne);
-        return new ResponseEntity<>("Added!", HttpStatus.OK);
+        Book insertedBook =  commandExecutor.execute(addOne);
+        return new ResponseEntity<>(insertedBook, HttpStatus.OK);
 //        addOne.setCommandContext(book);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(addOne), HttpStatus.ACCEPTED);
 
@@ -79,8 +79,8 @@ public class BooksController {
     public ResponseEntity<?> putBook(@PathVariable String id, @RequestBody Book book) {
         MyPair<String,Book> pair = new MyPair<String, Book>(id, book);
         updateOne.setCommandContext(pair);
-        commandExecutor.execute(updateOne);
-        return new ResponseEntity<>("Updated!", HttpStatus.OK);
+        Book updatedBook = commandExecutor.execute(updateOne);
+        return new ResponseEntity<>(updatedBook, HttpStatus.OK);
 //        MyPair<String,Book> pair = new MyPair<>(id, book);
 //        updateOne.setCommandContext(pair);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(updateOne), HttpStatus.ACCEPTED);

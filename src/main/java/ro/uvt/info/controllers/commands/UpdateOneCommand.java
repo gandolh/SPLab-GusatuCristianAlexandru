@@ -7,7 +7,7 @@ import ro.uvt.info.models.MyPair;
 
 import java.lang.reflect.Field;
 
-public class UpdateOneCommand<T> implements Command<Void, MyPair<String, T>> {
+public class UpdateOneCommand<T> implements Command<T, MyPair<String, T>> {
     private final JpaRepository<T, Integer> repository;
     private MyPair<String, T> commandContext;
 
@@ -26,12 +26,12 @@ public class UpdateOneCommand<T> implements Command<Void, MyPair<String, T>> {
     }
 
     @Override
-    public Command<Void, MyPair<String, T>> getClone() {
+    public Command<T, MyPair<String, T>> getClone() {
         return new UpdateOneCommand<>(this);
     }
 
     @Override
-    public Void execute() {
+    public T execute() {
         T existingEntity= repository
                 .findById(Integer.parseInt(commandContext.first))
                 .orElseThrow();
@@ -43,7 +43,7 @@ public class UpdateOneCommand<T> implements Command<Void, MyPair<String, T>> {
             ((Book) existingEntity).setElementList(updatingBook.getElementList());
         }
         repository.save(existingEntity);
-        return null;
+        return existingEntity;
     }
 
 

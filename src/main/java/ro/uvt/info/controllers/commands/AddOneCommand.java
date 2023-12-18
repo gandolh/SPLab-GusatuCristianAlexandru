@@ -2,7 +2,7 @@ package ro.uvt.info.controllers.commands;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public class AddOneCommand<T> implements Command<Void, T>{
+public class AddOneCommand<T> implements Command<T, T>{
     private final JpaRepository<T, Integer> repository;
     private T commandContext;
 
@@ -19,14 +19,14 @@ public class AddOneCommand<T> implements Command<Void, T>{
     }
 
     @Override
-    public Command<Void, T> getClone() {
+    public Command<T, T> getClone() {
         return new AddOneCommand<>(this);
     }
 
     @Override
-    public Void execute() {
+    public T execute() {
         repository.save(commandContext);
-        return null;
+        return commandContext;
     }
 
 
