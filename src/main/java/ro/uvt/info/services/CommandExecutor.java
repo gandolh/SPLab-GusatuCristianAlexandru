@@ -3,7 +3,8 @@ package ro.uvt.info.services;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import ro.uvt.info.services.commands.Command;
+import ro.uvt.info.commands.Command;
+
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;

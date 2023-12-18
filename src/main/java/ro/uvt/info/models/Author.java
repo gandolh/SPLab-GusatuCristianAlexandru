@@ -1,9 +1,16 @@
 package ro.uvt.info.models;
 
+import com.sun.jdi.PrimitiveValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
+@Entity
 public class Author implements Visitee {
-
+    @Id
+    @GeneratedValue
+    private Long id;
     @Getter
     private String name;
     private String surname;

@@ -2,7 +2,6 @@ package ro.uvt.info.services;
 
 import ro.uvt.info.models.*;
 
-import javax.swing.plaf.PanelUI;
 import java.util.List;
 
 
@@ -28,14 +27,14 @@ public class BookSaveVisitor implements Visitor<Void> {
         }
         buildingJson.append("]");
         buildingJson.append(!book.getElementList().isEmpty() ? ",\n \"elementList\": [" : "");
-        List<Element> books = book.getElementList();
+        List<BaseElement> books = book.getElementList();
         printChilds(books);
         buildingJson.append(!book.getElementList().isEmpty() ? "]" : "");
         buildingJson.append("}");
         return null;
     }
 
-    private void printChilds(List<Element> books) {
+    private void printChilds(List<BaseElement> books) {
         for (int i = 0; i < books.size(); i++) {
             books.get(i).accept(this);
             if (i != books.size() - 1) buildingJson.append(",");

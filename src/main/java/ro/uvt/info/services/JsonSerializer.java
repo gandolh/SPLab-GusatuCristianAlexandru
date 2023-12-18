@@ -1,7 +1,6 @@
 package ro.uvt.info.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import jakarta.servlet.http.PushBuilder;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,6 @@ import ro.uvt.info.models.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -43,12 +41,13 @@ public class JsonSerializer {
     }
 
 
-    public Element DeserializeBookRecursive(JsonNode node)
+    public BaseElement DeserializeBookRecursive(JsonNode node)
     {
-        return internDeserializeBook(node, new Book());
+        var resultedBook =  internDeserializeBook(node, new Book());
+        return resultedBook;
     }
 
-    private Element internDeserializeBook(JsonNode node, Section section){
+    private BaseElement internDeserializeBook(JsonNode node, Section section){
         JsonNode elementListNode = node.get("elementList");
         if(elementListNode == null){
             return  deserializeBaseType(node);
@@ -56,10 +55,10 @@ public class JsonSerializer {
 
         Iterator<JsonNode> elementList = elementListNode.elements();
         String title = node.get("title").asText();
-        List<Element> tmpElementList = new ArrayList<>();
+        List<BaseElement> tmpElementList = new ArrayList<>();
 
         while (elementList.hasNext()){
-            Element elt = internDeserializeBook(elementList.next(), new Section());
+            BaseElement elt = internDeserializeBook(elementList.next(), new Section());
             tmpElementList.add(elt);
         }
         section.setTitle(title);
@@ -67,7 +66,7 @@ public class JsonSerializer {
         return section;
     }
 
-    private Element deserializeBaseType(JsonNode node){
+    private BaseElement deserializeBaseType(JsonNode node){
         String className = node.get("class").asText();
 
         if(className.equals(Image.class.toString())){

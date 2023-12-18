@@ -1,36 +1,49 @@
 package ro.uvt.info.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
-public class Section extends Element implements Visitee {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Section extends BaseElement implements Visitee {
+
+    @OneToMany(targetEntity = BaseElement.class,cascade = CascadeType.ALL)
+    protected List<BaseElement> elementList= new ArrayList<>();
+
     protected String title;
 
     public Section() {
         title = "";
-        elementList = new ArrayList<>();
     }
-
     public Section(String title) {
         this.title = title;
-        elementList = new ArrayList<>();
     }
-
     public Section(Section other){
         this.title = other.title;
         this.elementList = new ArrayList<>(other.elementList);
     }
 
-
-
-
+    @Override
+    public void add(BaseElement e) {
+        elementList.add(e);
+    }
+    @Override
+    public void remove(BaseElement e) {
+        elementList.remove(e);
+    }
+    @Override
+    public BaseElement get(int index) {
+        return elementList.get(index);
+    }
 
     @Override
-    public Element clone() {
+    public BaseElement clone() {
         return new Section(this);
     }
 
@@ -39,3 +52,4 @@ public class Section extends Element implements Visitee {
         visitor.visitSection(this);
     }
 }
+
