@@ -1,40 +1,48 @@
 package ro.uvt.info.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
+@Inheritance()
 public class Section extends BaseElement implements Visitee {
     @Id
     @GeneratedValue
     private Long id;
+    @Setter
+    @OneToMany(targetEntity = BaseElement.class,cascade = CascadeType.ALL)
+    protected List<BaseElement> elementList= new ArrayList<>();
     protected String title;
 
     public Section() {
         title = "";
-        elementList = new ArrayList<>();
     }
-
     public Section(String title) {
         this.title = title;
-        elementList = new ArrayList<>();
     }
-
     public Section(Section other){
         this.title = other.title;
         this.elementList = new ArrayList<>(other.elementList);
     }
 
-
-
-
+    @Override
+    public void add(BaseElement e) {
+        elementList.add(e);
+    }
+    @Override
+    public void remove(BaseElement e) {
+        elementList.remove(e);
+    }
+    @Override
+    public BaseElement get(int index) {
+        return elementList.get(index);
+    }
 
     @Override
     public BaseElement clone() {
