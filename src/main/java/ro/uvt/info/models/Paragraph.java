@@ -1,8 +1,16 @@
 package ro.uvt.info.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
+@Entity
 public class Paragraph extends BaseElement implements Visitee {
+    @Id
+    @GeneratedValue
+    private int id;
+
     @Getter
     private String text;
 

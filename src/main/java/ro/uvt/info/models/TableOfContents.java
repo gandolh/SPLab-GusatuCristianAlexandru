@@ -1,12 +1,21 @@
 package ro.uvt.info.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Entity
 public class TableOfContents extends BaseElement implements Visitee {
+    @Id
+    @GeneratedValue
+    private int id;
+    @Transient
     private final List<String> entries;
 
     public TableOfContents(){

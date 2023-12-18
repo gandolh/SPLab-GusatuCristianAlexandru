@@ -1,12 +1,19 @@
 package ro.uvt.info.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 @Getter
 @Setter
+@Entity
 public class Section extends BaseElement implements Visitee {
+    @Id
+    @GeneratedValue
+    private int id;
     protected String title;
 
     public Section() {
