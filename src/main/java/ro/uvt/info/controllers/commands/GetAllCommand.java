@@ -1,12 +1,13 @@
 package ro.uvt.info.controllers.commands;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ro.uvt.info.models.*;
 
 import java.util.List;
 
 public class GetAllCommand<T> implements Command<List<T>, Void> {
-    private final Repository<T> repository;
-    public GetAllCommand(Repository<T> repository) {
+    private final JpaRepository<T, Integer> repository;
+    public GetAllCommand(JpaRepository<T, Integer> repository) {
         this.repository = repository;
     }
     private GetAllCommand(GetAllCommand<T> gac) {
@@ -15,7 +16,8 @@ public class GetAllCommand<T> implements Command<List<T>, Void> {
 
     @Override
     public List<T> execute() {
-        return repository.getAll();
+        var all =  repository.findAll();
+        return  all;
     }
 
     @Override

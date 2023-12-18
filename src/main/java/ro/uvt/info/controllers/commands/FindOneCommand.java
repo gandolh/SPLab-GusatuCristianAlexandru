@@ -1,15 +1,14 @@
 package ro.uvt.info.controllers.commands;
 
 import lombok.Setter;
-import ro.uvt.info.models.Book;
-import ro.uvt.info.models.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public class FindOneCommand<T> implements Command<T, String> {
-    private final Repository<T> repository;
+    private final JpaRepository<T, Integer> repository;
     @Setter
     private String commandContext;
 
-    public FindOneCommand(Repository<T> repository) {
+    public FindOneCommand(JpaRepository<T, Integer> repository) {
         this.repository = repository;
     }
     private FindOneCommand(FindOneCommand<T> foc) {
@@ -19,7 +18,7 @@ public class FindOneCommand<T> implements Command<T, String> {
 
     @Override
     public T execute() {
-        return repository.find(commandContext);
+        return repository.findById(Integer.parseInt(commandContext)).orElseThrow();
     }
 
     @Override

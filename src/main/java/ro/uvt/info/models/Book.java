@@ -18,7 +18,7 @@ import java.util.List;
 public class Book extends Section implements Visitee {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @ManyToMany
     private List<Author> authorList;

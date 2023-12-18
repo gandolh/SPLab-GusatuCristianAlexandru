@@ -9,7 +9,7 @@ import lombok.Getter;
 public class Paragraph extends BaseElement implements Visitee {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Getter
     private String text;

@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Image extends BaseElement implements Visitee {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @Getter
     private String imageName;
 

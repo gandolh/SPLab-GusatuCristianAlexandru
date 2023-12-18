@@ -1,13 +1,12 @@
 package ro.uvt.info.controllers.commands;
 
-import ro.uvt.info.models.Book;
-import ro.uvt.info.models.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public class AddOneCommand<T> implements Command<Void, T>{
-    private final Repository<T> repository;
+    private final JpaRepository<T, Integer> repository;
     private T commandContext;
 
-    public AddOneCommand(Repository<T> repository) {
+    public AddOneCommand(JpaRepository<T, Integer> repository) {
         this.repository = repository;
     }
     private AddOneCommand(AddOneCommand<T> aoc) {
@@ -26,7 +25,7 @@ public class AddOneCommand<T> implements Command<Void, T>{
 
     @Override
     public Void execute() {
-        repository.add(commandContext);
+        repository.save(commandContext);
         return null;
     }
 

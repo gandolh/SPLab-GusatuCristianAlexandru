@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Author implements Visitee {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @Getter
     private String name;
     private String surname;

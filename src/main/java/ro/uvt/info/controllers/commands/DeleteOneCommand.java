@@ -1,14 +1,12 @@
 package ro.uvt.info.controllers.commands;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import ro.uvt.info.models.MyPair;
-import ro.uvt.info.models.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public class DeleteOneCommand<T> implements Command<Void, String> {
-    private final Repository<T> repository;
+    private final JpaRepository<T, Integer> repository;
     private String commandContext;
 
-    public DeleteOneCommand(Repository<T> repository) {
+    public DeleteOneCommand(JpaRepository<T, Integer> repository) {
         this.repository = repository;
     }
     private DeleteOneCommand(DeleteOneCommand<T> doc){
@@ -28,7 +26,7 @@ public class DeleteOneCommand<T> implements Command<Void, String> {
 
     @Override
     public Void execute() {
-        repository.delete(commandContext);
+        repository.deleteById(Integer.parseInt(commandContext));
         return null;
     }
 }

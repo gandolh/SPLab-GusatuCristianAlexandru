@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Table extends BaseElement implements Visitee {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @Getter
     private String title;
 
@@ -26,7 +26,6 @@ public class Table extends BaseElement implements Visitee {
     }
     public Table(Table other){
         this.title = other.title;
-        this.elementList = new ArrayList<>(other.elementList);
     }
 
 

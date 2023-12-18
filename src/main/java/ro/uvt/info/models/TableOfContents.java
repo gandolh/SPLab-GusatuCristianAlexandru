@@ -14,7 +14,7 @@ import java.util.List;
 public class TableOfContents extends BaseElement implements Visitee {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @Transient
     private final List<String> entries;
 

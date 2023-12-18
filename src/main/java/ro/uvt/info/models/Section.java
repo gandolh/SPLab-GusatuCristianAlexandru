@@ -3,6 +3,7 @@ package ro.uvt.info.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class Section extends BaseElement implements Visitee {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     protected String title;
 
     public Section() {
@@ -45,3 +46,4 @@ public class Section extends BaseElement implements Visitee {
         visitor.visitSection(this);
     }
 }
+
