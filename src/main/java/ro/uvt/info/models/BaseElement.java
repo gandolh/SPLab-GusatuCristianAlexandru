@@ -12,12 +12,12 @@ import java.util.List;
 
 @Getter
 @JsonDeserialize(using = ElementDeserializer.class)
-@Inheritance()
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BaseElement implements Visitee {
     @Id
     @GeneratedValue
-    private Long id;
+    protected Long id;
 
     public BaseElement() {}
 

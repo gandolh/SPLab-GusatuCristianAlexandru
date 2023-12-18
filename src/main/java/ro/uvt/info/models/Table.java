@@ -11,9 +11,7 @@ import java.util.ArrayList;
 @Entity
 @jakarta.persistence.Table(name = "ContentTable")
 public class Table extends BaseElement implements Visitee {
-    @Id
-    @GeneratedValue
-    private Long id;
+
     @Getter
     private String title;
 

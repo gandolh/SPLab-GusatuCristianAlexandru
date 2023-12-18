@@ -7,9 +7,6 @@ import lombok.Getter;
 
 @Entity
 public class Paragraph extends BaseElement implements Visitee {
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Getter
     private String text;

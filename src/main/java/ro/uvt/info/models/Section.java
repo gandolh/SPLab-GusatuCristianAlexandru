@@ -10,14 +10,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Inheritance()
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Section extends BaseElement implements Visitee {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @Setter
+
     @OneToMany(targetEntity = BaseElement.class,cascade = CascadeType.ALL)
     protected List<BaseElement> elementList= new ArrayList<>();
+
     protected String title;
 
     public Section() {

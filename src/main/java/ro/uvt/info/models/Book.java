@@ -16,13 +16,8 @@ import java.util.List;
 @Setter
 @Entity
 public class Book extends Section implements Visitee {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @ManyToMany
     private List<Author> authorList;
-
     public Book(){
         super("");
         authorList = new ArrayList<>();

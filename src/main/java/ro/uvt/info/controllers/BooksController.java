@@ -11,6 +11,7 @@ import ro.uvt.info.services.BookStatistics;
 import ro.uvt.info.services.CommandExecutor;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/books")
@@ -20,12 +21,10 @@ public class BooksController {
     private final Command<Void, Book> addOne;
     private final Command<Void, MyPair<String,Book>> updateOne;
     private final Command<Void, String> deleteOne;
-    private final Command<String, Object> saveToJson;
     private final CommandExecutor commandExecutor;
 
     public BooksController(SaveToJsonCommand saveToJsonCmd,  BooksRepository bookRepository,
                            CommandExecutor commandExecutor){
-        saveToJson = saveToJsonCmd;
         getAll = new GetAllCommand<Book>(bookRepository);
         getOne = new FindOneCommand<Book>(bookRepository);
         addOne = new AddOneCommand<Book>(bookRepository);
@@ -48,20 +47,22 @@ public class BooksController {
     @GetMapping("")
     public ResponseEntity<?> getBooks() {
         List<Book> books = commandExecutor.execute(getAll);
-        saveToJson.setCommandContext(books);
-        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
+        return new ResponseEntity<>(books, HttpStatus.OK);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(getAll), HttpStatus.ACCEPTED);
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBook(@PathVariable String id) {
-        getOne.setCommandContext(id);
-        Book book = commandExecutor.execute(getOne);
-        saveToJson.setCommandContext(book);
-        return new ResponseEntity<>(commandExecutor.execute(saveToJson), HttpStatus.OK);
-//        getOne.setCommandContext(id);
+        try{
+            getOne.setCommandContext(id);
+            Book book = commandExecutor.execute(getOne);
+            return new ResponseEntity<>(book, HttpStatus.OK);
+            //        getOne.setCommandContext(id);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(getOne), HttpStatus.ACCEPTED);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("")

@@ -43,7 +43,8 @@ public class JsonSerializer {
 
     public BaseElement DeserializeBookRecursive(JsonNode node)
     {
-        return internDeserializeBook(node, new Book());
+        var resultedBook =  internDeserializeBook(node, new Book());
+        return resultedBook;
     }
 
     private BaseElement internDeserializeBook(JsonNode node, Section section){

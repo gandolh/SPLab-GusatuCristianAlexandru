@@ -12,9 +12,7 @@ import java.util.List;
 @Getter
 @Entity
 public class TableOfContents extends BaseElement implements Visitee {
-    @Id
-    @GeneratedValue
-    private Long id;
+
     @Transient
     private final List<String> entries;
 

@@ -8,9 +8,7 @@ import lombok.Getter;
 
 @Entity
 public class Image extends BaseElement implements Visitee {
-    @Id
-    @GeneratedValue
-    private Long id;
+
     @Getter
     private String imageName;
 

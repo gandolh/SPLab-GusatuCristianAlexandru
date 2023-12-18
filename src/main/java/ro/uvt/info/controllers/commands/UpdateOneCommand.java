@@ -1,6 +1,8 @@
 package ro.uvt.info.controllers.commands;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ro.uvt.info.models.Book;
 import ro.uvt.info.models.MyPair;
 
 import java.lang.reflect.Field;
@@ -30,24 +32,19 @@ public class UpdateOneCommand<T> implements Command<Void, MyPair<String, T>> {
 
     @Override
     public Void execute() {
-        T existingEntity = repository.findById(Integer.parseInt(commandContext.first)).orElseThrow();
+        T existingEntity= repository
+                .findById(Integer.parseInt(commandContext.first))
+                .orElseThrow();
 
-        // use reflection to override properties
-        Class<?> entityClass = existingEntity.getClass();
-        Class<?> commandContextClass = commandContext.second.getClass();
-        try {
-            for (Field commandContextField : commandContextClass.getDeclaredFields()) {
-                commandContextField.setAccessible(true);
-                Field entityField = null;
-                entityField = entityClass.getDeclaredField(commandContextField.getName());
-                entityField.setAccessible(true);
-                entityField.set(existingEntity, commandContextField.get(commandContext.second));
-            }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (existingEntity.getClass() == Book.class) {
+            Book updatingBook = (Book) commandContext.second;
+            ((Book) existingEntity).setTitle(updatingBook.getTitle());
+            ((Book) existingEntity).setAuthorList(updatingBook.getAuthorList());
+            ((Book) existingEntity).setElementList(updatingBook.getElementList());
         }
-
         repository.save(existingEntity);
         return null;
     }
+
+
 }
