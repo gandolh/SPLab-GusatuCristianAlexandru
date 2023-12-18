@@ -1,17 +1,15 @@
-package ro.uvt.info.controllers.commands;
+package ro.uvt.info.commands;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import ro.uvt.info.models.Book;
 import ro.uvt.info.models.MyPair;
-
-import java.lang.reflect.Field;
+import ro.uvt.info.persistence.CrudRepository;
 
 public class UpdateOneCommand<T> implements Command<T, MyPair<String, T>> {
-    private final JpaRepository<T, Integer> repository;
+    private final CrudRepository<T, Integer> repository;
     private MyPair<String, T> commandContext;
 
-    public UpdateOneCommand(JpaRepository<T, Integer> repository) {
+    public UpdateOneCommand(CrudRepository<T, Integer> repository) {
         this.repository = repository;
     }
 
@@ -33,8 +31,7 @@ public class UpdateOneCommand<T> implements Command<T, MyPair<String, T>> {
     @Override
     public T execute() {
         T existingEntity= repository
-                .findById(Integer.parseInt(commandContext.first))
-                .orElseThrow();
+                .findById(Integer.parseInt(commandContext.first));
 
         if (existingEntity.getClass() == Book.class) {
             Book updatingBook = (Book) commandContext.second;

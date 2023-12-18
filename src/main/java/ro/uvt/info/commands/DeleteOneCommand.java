@@ -1,12 +1,13 @@
-package ro.uvt.info.controllers.commands;
+package ro.uvt.info.commands;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import ro.uvt.info.persistence.CrudRepository;
 
 public class DeleteOneCommand<T> implements Command<Void, String> {
-    private final JpaRepository<T, Integer> repository;
+    private final CrudRepository<T, Integer> repository;
     private String commandContext;
 
-    public DeleteOneCommand(JpaRepository<T, Integer> repository) {
+    public DeleteOneCommand(CrudRepository<T, Integer> repository) {
         this.repository = repository;
     }
     private DeleteOneCommand(DeleteOneCommand<T> doc){

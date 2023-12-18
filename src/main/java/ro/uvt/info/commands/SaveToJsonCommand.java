@@ -1,4 +1,4 @@
-package ro.uvt.info.controllers.commands;
+package ro.uvt.info.commands;
 
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import ro.uvt.info.models.Book;
 import ro.uvt.info.models.Visitee;
-import ro.uvt.info.services.BookSaveVisitor;
 import ro.uvt.info.services.JsonSerializer;
 
 import java.util.List;

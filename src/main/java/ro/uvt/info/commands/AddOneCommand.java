@@ -1,12 +1,13 @@
-package ro.uvt.info.controllers.commands;
+package ro.uvt.info.commands;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import ro.uvt.info.persistence.CrudRepository;
 
 public class AddOneCommand<T> implements Command<T, T>{
-    private final JpaRepository<T, Integer> repository;
+    private final CrudRepository<T, Integer> repository;
     private T commandContext;
 
-    public AddOneCommand(JpaRepository<T, Integer> repository) {
+    public AddOneCommand(CrudRepository<T, Integer> repository) {
         this.repository = repository;
     }
     private AddOneCommand(AddOneCommand<T> aoc) {

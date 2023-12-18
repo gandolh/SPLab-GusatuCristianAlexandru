@@ -3,10 +3,12 @@ package ro.uvt.info.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.uvt.info.controllers.commands.*;
+import ro.uvt.info.commands.*;
 import ro.uvt.info.models.Book;
 import ro.uvt.info.models.MyPair;
 import ro.uvt.info.persistence.BooksRepository;
+import ro.uvt.info.persistence.CrudRepository;
+import ro.uvt.info.persistence.JPACrudRepository;
 import ro.uvt.info.services.BookStatistics;
 import ro.uvt.info.services.CommandExecutor;
 
@@ -16,29 +18,32 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/books")
 public class BooksController {
-    private final Command<List<Book>, Void> getAll;
+    private final Command<Iterable<Book>, Void> getAll;
     private final Command<Book, String> getOne;
     private final Command<Book, Book> addOne;
     private final Command<Book, MyPair<String,Book>> updateOne;
     private final Command<Void, String> deleteOne;
     private final CommandExecutor commandExecutor;
 
-    public BooksController(SaveToJsonCommand saveToJsonCmd,  BooksRepository bookRepository,
+    public BooksController(CrudRepository<Book, Integer> repository,
                            CommandExecutor commandExecutor){
-        getAll = new GetAllCommand<Book>(bookRepository);
-        getOne = new FindOneCommand<Book>(bookRepository);
-        addOne = new AddOneCommand<Book>(bookRepository);
-        updateOne = new UpdateOneCommand<Book>(bookRepository);
-        deleteOne = new DeleteOneCommand<Book>(bookRepository);
+
+//        var repository = new JPACrudRepository<>(booksRepository);
+
+        getAll = new GetAllCommand<Book>(repository);
+        getOne = new FindOneCommand<Book>(repository);
+        addOne = new AddOneCommand<Book>(repository);
+        updateOne = new UpdateOneCommand<Book>(repository);
+        deleteOne = new DeleteOneCommand<Book>(repository);
         this.commandExecutor = commandExecutor;
     }
 
     @GetMapping("/statistics")
     public ResponseEntity<?> printStatistics() {
         var books = getAll.execute();
-        if(books.isEmpty())
+        if(books.iterator().hasNext())
             return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
-        var book = books.get(0);
+        var book = books.iterator().next();
         BookStatistics stats = new BookStatistics();
         book.accept(stats);
         return new ResponseEntity<>(stats.getStatistics(), HttpStatus.OK);
@@ -46,7 +51,7 @@ public class BooksController {
 
     @GetMapping("")
     public ResponseEntity<?> getBooks() {
-        List<Book> books = commandExecutor.execute(getAll);
+        Iterable<Book> books = commandExecutor.execute(getAll);
         return new ResponseEntity<>(books, HttpStatus.OK);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(getAll), HttpStatus.ACCEPTED);
 
