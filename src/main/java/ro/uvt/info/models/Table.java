@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 
-public class Table extends Element implements Visitee {
+public class Table extends BaseElement implements Visitee {
     @Getter
     private String title;
 
@@ -24,7 +24,7 @@ public class Table extends Element implements Visitee {
 
 
     @Override
-    public Element clone() {
+    public BaseElement clone() {
         return new Table(this);
     }
 

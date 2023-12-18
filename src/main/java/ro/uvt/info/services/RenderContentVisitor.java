@@ -1,6 +1,5 @@
 package ro.uvt.info.services;
 
-import jakarta.servlet.http.PushBuilder;
 import ro.uvt.info.models.*;
 
 public class RenderContentVisitor implements Visitor<Void> {
@@ -27,7 +26,7 @@ public class RenderContentVisitor implements Visitor<Void> {
     @Override
     public Void visitSection(Section section) {
         System.out.println(section.getTitle());
-        for (Element element :
+        for (BaseElement element :
                 section.getElementList()) {
             element.accept(this);
         }

@@ -1,13 +1,12 @@
 package ro.uvt.info.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 @Getter
 @Setter
-public class Section extends Element implements Visitee {
+public class Section extends BaseElement implements Visitee {
     protected String title;
 
     public Section() {
@@ -30,7 +29,7 @@ public class Section extends Element implements Visitee {
 
 
     @Override
-    public Element clone() {
+    public BaseElement clone() {
         return new Section(this);
     }
 

@@ -1,8 +1,6 @@
 package ro.uvt.info.models;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,23 +11,23 @@ import java.util.List;
 
 @Getter
 @JsonDeserialize(using = ElementDeserializer.class)
-public abstract class Element implements Visitee {
+public abstract class BaseElement implements Visitee {
 
     @Setter
-    protected List<Element> elementList;
-    public Element() {
+    protected List<BaseElement> elementList;
+    public BaseElement() {
         this.elementList = new ArrayList<>();
     }
 
-    public void add(Element e) {
+    public void add(BaseElement e) {
         elementList.add(e);
     }
-    public void remove(Element e) {
+    public void remove(BaseElement e) {
         elementList.remove(e);
     }
-    public Element get(int index) {
+    public BaseElement get(int index) {
         return elementList.get(index);
     }
 
-    public abstract Element clone();
+    public abstract BaseElement clone();
 }

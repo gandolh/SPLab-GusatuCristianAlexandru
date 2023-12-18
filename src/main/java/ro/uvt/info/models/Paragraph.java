@@ -2,7 +2,7 @@ package ro.uvt.info.models;
 
 import lombok.Getter;
 
-public class Paragraph extends Element implements Visitee {
+public class Paragraph extends BaseElement implements Visitee {
     @Getter
     private String text;
 
@@ -14,7 +14,7 @@ public class Paragraph extends Element implements Visitee {
 
 
     @Override
-    public Element clone() {
+    public BaseElement clone() {
         return new Paragraph(this);
     }
 

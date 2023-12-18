@@ -1,10 +1,6 @@
 package ro.uvt.info.models;
 
-import ro.uvt.info.models.Element;
-import ro.uvt.info.models.Image;
-import ro.uvt.info.models.Picture;
-
-public class ImageProxy extends Element implements Picture, Visitee {
+public class ImageProxy extends BaseElement implements Picture, Visitee {
     private Image realImage;
     private String url;
 
@@ -26,7 +22,7 @@ public class ImageProxy extends Element implements Picture, Visitee {
 
 
     @Override
-    public Element clone() {
+    public BaseElement clone() {
         return null;
     }
 

@@ -2,12 +2,11 @@ package ro.uvt.info.models;
 
 import lombok.Getter;
 
-import javax.swing.plaf.PanelUI;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class TableOfContents extends Element implements Visitee {
+public class TableOfContents extends BaseElement implements Visitee {
     private final List<String> entries;
 
     public TableOfContents(){
@@ -19,7 +18,7 @@ public class TableOfContents extends Element implements Visitee {
     }
 
     @Override
-    public Element clone() {
+    public BaseElement clone() {
         return new TableOfContents(this);
     }
 
