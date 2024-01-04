@@ -1,12 +1,13 @@
-package ro.uvt.info.services.commands;
+package ro.uvt.info.services.Commands;
 
-import ro.uvt.info.models.Repository;
 
-public class AddOneCommand<T> implements Command<Void, T>{
-    private final Repository<T> repository;
+import ro.uvt.info.persistence.CrudRepository;
+
+public class AddOneCommand<T> implements Command<T, T>{
+    private final CrudRepository<T, Long> repository;
     private T commandContext;
 
-    public AddOneCommand(Repository<T> repository) {
+    public AddOneCommand(CrudRepository<T, Long> repository) {
         this.repository = repository;
     }
     private AddOneCommand(AddOneCommand<T> aoc) {
@@ -19,14 +20,13 @@ public class AddOneCommand<T> implements Command<Void, T>{
     }
 
     @Override
-    public Command<Void, T> getClone() {
+    public Command<T, T> getClone() {
         return new AddOneCommand<>(this);
     }
 
     @Override
-    public Void execute() {
-        repository.add(commandContext);
-        return null;
+    public T execute() {
+        return repository.save(commandContext);
     }
 
 

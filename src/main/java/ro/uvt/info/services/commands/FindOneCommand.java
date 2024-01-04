@@ -1,14 +1,14 @@
-package ro.uvt.info.services.commands;
+package ro.uvt.info.services.Commands;
 
 import lombok.Setter;
-import ro.uvt.info.models.Repository;
+import ro.uvt.info.persistence.CrudRepository;
 
-public class FindOneCommand<T> implements Command<T, String> {
-    private final Repository<T> repository;
+public class FindOneCommand<T> implements Command<T, Long> {
+    private final CrudRepository<T, Long> repository;
     @Setter
-    private String commandContext;
+    private Long commandContext;
 
-    public FindOneCommand(Repository<T> repository) {
+    public FindOneCommand(CrudRepository<T, Long> repository) {
         this.repository = repository;
     }
     private FindOneCommand(FindOneCommand<T> foc) {
@@ -18,11 +18,11 @@ public class FindOneCommand<T> implements Command<T, String> {
 
     @Override
     public T execute() {
-        return repository.find(commandContext);
+        return repository.findById(commandContext);
     }
 
     @Override
-    public Command<T, String> getClone() {
+    public Command<T, Long> getClone() {
         return new FindOneCommand<>(this);
     }
 }

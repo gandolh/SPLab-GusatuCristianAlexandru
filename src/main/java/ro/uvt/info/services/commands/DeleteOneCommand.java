@@ -1,12 +1,12 @@
-package ro.uvt.info.services.commands;
+package ro.uvt.info.services.Commands;
 
-import ro.uvt.info.models.Repository;
+import ro.uvt.info.persistence.CrudRepository;
 
-public class DeleteOneCommand<T> implements Command<Void, String> {
-    private final Repository<T> repository;
-    private String commandContext;
+public class DeleteOneCommand<T> implements Command<Void, Long> {
+    private final CrudRepository<T, Long> repository;
+    private Long commandContext;
 
-    public DeleteOneCommand(Repository<T> repository) {
+    public DeleteOneCommand(CrudRepository<T, Long> repository) {
         this.repository = repository;
     }
     private DeleteOneCommand(DeleteOneCommand<T> doc){
@@ -15,18 +15,18 @@ public class DeleteOneCommand<T> implements Command<Void, String> {
     }
 
     @Override
-    public void setCommandContext(String o) {
+    public void setCommandContext(Long o) {
         commandContext = o;
     }
 
     @Override
-    public Command<Void, String> getClone() {
+    public Command<Void, Long> getClone() {
         return new DeleteOneCommand<>(this);
     }
 
     @Override
     public Void execute() {
-        repository.delete(commandContext);
+        repository.deleteById(commandContext);
         return null;
     }
 }

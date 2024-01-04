@@ -1,12 +1,14 @@
-package ro.uvt.info.services.commands;
+package ro.uvt.info.services.Commands;
 
-import ro.uvt.info.models.*;
+import org.hibernate.Hibernate;
+import ro.uvt.info.models.BaseElement;
+import ro.uvt.info.persistence.CrudRepository;
 
 import java.util.List;
 
-public class GetAllCommand<T> implements Command<List<T>, Void> {
-    private final Repository<T> repository;
-    public GetAllCommand(Repository<T> repository) {
+public class GetAllCommand<T extends BaseElement> implements Command<List<T>, Void> {
+    private final CrudRepository<T, Long> repository;
+    public GetAllCommand(CrudRepository<T, Long> repository) {
         this.repository = repository;
     }
     private GetAllCommand(GetAllCommand<T> gac) {
@@ -15,7 +17,10 @@ public class GetAllCommand<T> implements Command<List<T>, Void> {
 
     @Override
     public List<T> execute() {
-        return repository.getAll();
+
+        List<T> result = repository.findAll();
+//        result.forEach(el-> { Hibernate.initialize(el); el.clone();});
+        return result;
     }
 
     @Override
