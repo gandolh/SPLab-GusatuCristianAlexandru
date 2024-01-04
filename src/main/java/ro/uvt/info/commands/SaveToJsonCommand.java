@@ -1,4 +1,4 @@
-package ro.uvt.info.services.Commands;
+package ro.uvt.info.commands;
 
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

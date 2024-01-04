@@ -1,4 +1,4 @@
-package ro.uvt.info.services.Commands;
+package ro.uvt.info.commands;
 
 import ro.uvt.info.models.MyPair;
 import ro.uvt.info.persistence.CrudRepository;

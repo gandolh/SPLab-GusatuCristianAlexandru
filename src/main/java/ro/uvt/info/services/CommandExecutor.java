@@ -1,10 +1,9 @@
 package ro.uvt.info.services;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import ro.uvt.info.services.Commands.Command;
+import ro.uvt.info.commands.Command;
 
 
 import java.util.*;
