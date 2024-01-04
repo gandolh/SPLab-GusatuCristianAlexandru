@@ -13,7 +13,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Section extends BaseElement implements Visitee {
 
-    @OneToMany(targetEntity = BaseElement.class,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = BaseElement.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected List<BaseElement> elementList= new ArrayList<>();
 
     protected String title;

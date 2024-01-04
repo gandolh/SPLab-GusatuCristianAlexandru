@@ -3,15 +3,12 @@ package ro.uvt.info.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.uvt.info.commands.*;
 import ro.uvt.info.models.Book;
 import ro.uvt.info.models.MyPair;
-import ro.uvt.info.persistence.BooksRepository;
 import ro.uvt.info.persistence.CrudRepository;
-import ro.uvt.info.persistence.JPACrudRepository;
 import ro.uvt.info.services.BookStatistics;
 import ro.uvt.info.services.CommandExecutor;
-import ro.uvt.info.services.commands.*;
+import ro.uvt.info.services.Commands.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,14 +16,14 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/books")
 public class BooksController {
-    private final Command<Iterable<Book>, Void> getAll;
-    private final Command<Book, String> getOne;
+    private final Command<List<Book>, Void> getAll;
+    private final Command<Book, Long> getOne;
     private final Command<Book, Book> addOne;
-    private final Command<Book, MyPair<String,Book>> updateOne;
-    private final Command<Void, String> deleteOne;
+    private final Command<Book, MyPair<Long, Book>> updateOne;
+    private final Command<Void, Long> deleteOne;
     private final CommandExecutor commandExecutor;
 
-    public BooksController(CrudRepository<Book, Integer> repository,
+    public BooksController(CrudRepository<Book, Long> repository,
                            CommandExecutor commandExecutor){
 
 //        var repository = new JPACrudRepository<>(booksRepository);
@@ -55,17 +52,15 @@ public class BooksController {
         Iterable<Book> books = commandExecutor.execute(getAll);
         return new ResponseEntity<>(books, HttpStatus.OK);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(getAll), HttpStatus.ACCEPTED);
-
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBook(@PathVariable String id) {
+    public ResponseEntity<?> getBook(@PathVariable Long id) {
         try{
             getOne.setCommandContext(id);
             Book book = commandExecutor.execute(getOne);
             return new ResponseEntity<>(book, HttpStatus.OK);
-            //        getOne.setCommandContext(id);
-//        return new ResponseEntity<>(commandExecutor.executeAsync(getOne), HttpStatus.ACCEPTED);
+       // return new ResponseEntity<>(commandExecutor.executeAsync(getOne), HttpStatus.ACCEPTED);
         }catch (NoSuchElementException e){
             return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
         }
@@ -76,34 +71,30 @@ public class BooksController {
         addOne.setCommandContext(book);
         Book insertedBook =  commandExecutor.execute(addOne);
         return new ResponseEntity<>(insertedBook, HttpStatus.OK);
-//        addOne.setCommandContext(book);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(addOne), HttpStatus.ACCEPTED);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> putBook(@PathVariable String id, @RequestBody Book book) {
-        MyPair<String,Book> pair = new MyPair<String, Book>(id, book);
+    public ResponseEntity<?> putBook(@PathVariable Long id, @RequestBody Book book) {
+        MyPair<Long,Book> pair = new MyPair<>(id, book);
         updateOne.setCommandContext(pair);
         Book updatedBook = commandExecutor.execute(updateOne);
         return new ResponseEntity<>(updatedBook, HttpStatus.OK);
-//        MyPair<String,Book> pair = new MyPair<>(id, book);
-//        updateOne.setCommandContext(pair);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(updateOne), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable String id) {
+    public ResponseEntity<?> deleteBook(@PathVariable Long id) {
         deleteOne.setCommandContext(id);
         commandExecutor.execute(deleteOne);
         return new ResponseEntity<>("Removed!", HttpStatus.OK);
-//        deleteOne.setCommandContext(id);
 //        return new ResponseEntity<>(commandExecutor.executeAsync(deleteOne), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/async/{opId}")
     public ResponseEntity<?> getAsyncResult(@PathVariable String opId){
-        return new ResponseEntity<>( commandExecutor.getAsyncResult(opId), HttpStatus.OK);
+        return new ResponseEntity<>(commandExecutor.getAsyncResult(opId), HttpStatus.OK);
     }
 
 

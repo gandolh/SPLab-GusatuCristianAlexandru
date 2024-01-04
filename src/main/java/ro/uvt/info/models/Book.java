@@ -1,10 +1,7 @@
 package ro.uvt.info.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +13,7 @@ import java.util.List;
 @Setter
 @Entity
 public class Book extends Section implements Visitee {
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authorList;
     public Book(){
         super("");

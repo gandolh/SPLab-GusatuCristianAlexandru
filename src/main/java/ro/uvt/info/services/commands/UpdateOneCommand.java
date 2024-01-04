@@ -1,13 +1,13 @@
-package ro.uvt.info.services.commands;
+package ro.uvt.info.services.Commands;
 
 import ro.uvt.info.models.MyPair;
-import ro.uvt.info.models.Repository;
+import ro.uvt.info.persistence.CrudRepository;
 
-public class UpdateOneCommand<T> implements Command<Void, MyPair<String, T>> {
-    private final Repository<T> repository;
-    private  MyPair<String, T> commandContext;
+public class UpdateOneCommand<T> implements Command<T, MyPair<Long, T>> {
+    private final CrudRepository<T, Long> repository;
+    private  MyPair<Long, T> commandContext;
 
-    public UpdateOneCommand(Repository<T> repository) {
+    public UpdateOneCommand(CrudRepository<T, Long> repository) {
         this.repository = repository;
     }
     private UpdateOneCommand(UpdateOneCommand<T> uoc) {
@@ -15,18 +15,18 @@ public class UpdateOneCommand<T> implements Command<Void, MyPair<String, T>> {
         this.commandContext = uoc.commandContext;
     }
     @Override
-    public void setCommandContext( MyPair<String, T> o) {
+    public void setCommandContext( MyPair<Long, T> o) {
         commandContext = o;
     }
 
     @Override
-    public Command<Void, MyPair<String, T>> getClone() {
+    public Command<T, MyPair<Long, T>> getClone() {
         return new UpdateOneCommand<>(this);
     }
 
     @Override
-    public Void execute() {
-        repository.update(commandContext.first, commandContext.second);
-        return null;
+    public T execute() {
+        return repository.update(commandContext.first, commandContext.second);
+//        return null;
     }
 }
