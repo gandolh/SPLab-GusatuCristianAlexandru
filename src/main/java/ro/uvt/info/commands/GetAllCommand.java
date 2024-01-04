@@ -1,6 +1,5 @@
-package ro.uvt.info.services.Commands;
+package ro.uvt.info.commands;
 
-import org.hibernate.Hibernate;
 import ro.uvt.info.models.BaseElement;
 import ro.uvt.info.persistence.CrudRepository;
 
